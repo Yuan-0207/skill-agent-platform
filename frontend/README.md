@@ -1,34 +1,27 @@
-# 前端 App（占位）
+# Skill Agent 前端（Vite + React + TypeScript）
 
-本目录预留给前端工程（Web / React Native / 原生 App 等）。
+## 开发
 
-## 对接方式
+```bash
+# 终端 1：后端
+cd ../backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
 
-调用后端统一接口：
-
-```
-POST /api/v1/chat
-Content-Type: application/json
-
-{
-  "message": "带我去会议室",
-  "session_id": "optional-uuid",
-  "context": {
-    "location": { "lat": 0, "lng": 0 }
-  }
-}
+# 终端 2：前端
+cd frontend
+npm install
+npm run dev
 ```
 
-## 响应示例
+浏览器打开 http://127.0.0.1:5173  
+开发模式下 `/api` 会通过 Vite 代理到 `http://127.0.0.1:8000`。
 
-```json
-{
-  "reply": "（演示）导航指令已生成：带我去会议室",
-  "skill_id": "navigation",
-  "skill_name": "导航",
-  "tool_calls": [...],
-  "data": { "route_id": "mock-route-001", "eta_minutes": 5 }
-}
+## 生产构建
+
+```bash
+npm run build
+# 产物在 dist/
 ```
 
-后续可在此目录初始化 Vite + React 或你的移动端工程。
+可选：复制 `.env.example` 为 `.env.production` 并设置 `VITE_API_BASE_URL`。

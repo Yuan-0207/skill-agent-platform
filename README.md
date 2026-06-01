@@ -24,7 +24,7 @@ Function Calling（底层工具：获取点位、调用云接口）
 
 | 目录 | 说明 |
 |------|------|
-| `frontend/` | 前端 App（占位，可接 Web / 移动端） |
+| `frontend/` | Vite + React 控制台（对接 `/api/v1/chat`） |
 | `backend/` | FastAPI 网关，对外暴露 HTTP API |
 | `agent/` | Agent 主入口、技能路由、执行器 |
 | `skills/` | 各能力 SKILL.md 配置（可热扩展） |
@@ -47,7 +47,17 @@ cd backend
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 3. 调用示例
+### 3. 启动前端（Vite）
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+浏览器访问 http://127.0.0.1:5173
+
+### 4. 调用示例（curl）
 
 ```bash
 curl -X POST http://127.0.0.1:8000/api/v1/chat \
@@ -78,7 +88,13 @@ git remote set-url origin ssh://git@ssh.github.com:443/<你的用户名>/cc-skil
 git push -u origin main
 ```
 
+## Jenkins CI
+
+根目录 `Jenkinsfile`：自动执行后端 pytest + 前端 `npm run build`，并归档 `frontend/dist/`。  
+详见 [docs/jenkins.md](docs/jenkins.md)。
+
 ## 文档
 
 - [架构说明](docs/architecture.md)
 - [SKILL.md 格式](docs/skill-format.md)
+- [Jenkins 配置](docs/jenkins.md)
